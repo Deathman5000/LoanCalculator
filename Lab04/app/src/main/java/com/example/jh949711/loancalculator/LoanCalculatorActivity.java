@@ -5,7 +5,17 @@ package com.example.jh949711.loancalculator;
     Description: This app takes in input from the user in form of loan amount, APR, and the
                  term of the loan in years. It then will calculate the amount you must pay
                  each month. It will also generate a table that tells the interest that is gained
-                 over each year.
+                 over each year along with the amount you are paying toward the loan as well as
+                 how much interest is paid.
+    Grade: Kyra:  Developed the table along with the button for it. Calculated everything needed
+                  to be put in the table. Developed the XML file needed for the table activity.
+
+           James: Developed the interface of the app along with the calculate and reset buttons.
+                  Also coded the part that displays the amount of interest paid in the main
+                  screen. Developed the XML file needed for the main interface.
+
+    Grade Deserved: Kyra-  100%
+                    James- 100%
  */
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,9 +30,27 @@ import android.widget.Toast;
 public class LoanCalculatorActivity extends AppCompatActivity {
     EditText APR,loan,term,payment;
     TextView loanPayment, paymentText;
+    double textPayment;
     Button Calculate,Reset,Table;
     Bundle b = new Bundle();
-    double interest;
+
+
+    /*
+        This method is used for getting the value for the total interest paid. It grabs the
+        value from the table activity and inserts it into the main activity.
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1){
+            if (resultCode == RESULT_OK){
+                textPayment = data.getExtras().getDouble("totalInterest");
+                loanPayment.setText("Over the period of the loan, interest paid is " +
+                        String.format("$%,.2f", textPayment));
+            }
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +66,10 @@ public class LoanCalculatorActivity extends AppCompatActivity {
         Reset = findViewById(R.id.reset);
         Table = findViewById(R.id.table);
 
+        /*
+            Method for the Calculate button. This will calculate what is entered in the blanks
+            in the first screen. It also guards against putting empty values in the blanks.
+         */
         Calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +105,10 @@ public class LoanCalculatorActivity extends AppCompatActivity {
                 }
             }
         });
+
+        /*
+            Clears the data that was previously entered so new values can be calculated
+         */
         Reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,14 +116,21 @@ public class LoanCalculatorActivity extends AppCompatActivity {
                 loan.setText("");
                 term.setText("");
                 APR.setText("");
+                loanPayment.setTextColor(Color.GRAY);
                 Reset.setClickable(false);
                 Table.setClickable(false);
                 Reset.setTextColor(Color.GRAY);
                 Table.setTextColor(Color.GRAY);
                 paymentText.setTextColor(Color.GRAY);
                 payment.setTextColor(Color.GRAY);
+
             }
         });
+
+        /*
+            Gets the values needed for the calculations for the table. It then sends them to the
+            next activity so they can be used.
+         */
         Table.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,16 +146,9 @@ public class LoanCalculatorActivity extends AppCompatActivity {
                 b.putInt("months", months);
 
                 tableScreen.putExtras(b);
-                startActivity(tableScreen);
+                startActivityForResult(tableScreen,1);
             }
         });
     }
 
- /*   @Override
-    protected void onResume() {
-        super.onResume();
-        Bundle c = this.getIntent().getExtras();
-        interest = c.getDouble("totalInterest");
-        loanPayment.setText("Over the period of the loan, interest paid is " + String.format("$%,.2f", interest));
-    }*/
 }

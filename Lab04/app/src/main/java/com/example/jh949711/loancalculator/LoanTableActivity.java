@@ -8,7 +8,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 /**
- * Created by Kyra on 3/6/18.
+ * This class is used to generate the table for this app. It also totals up the interest to be
+ * sent back to the previous activity so it can be displayed.
  */
 
 public class LoanTableActivity extends LoanCalculatorActivity {
@@ -34,7 +35,6 @@ public class LoanTableActivity extends LoanCalculatorActivity {
         double rate = apr / 100 / 12;
         double result = loan*(rate+(rate/(Math.pow((1+rate),months)-1)));
         double amount = loan;
-        //double rate2 = apr / 12;
 
         totalLoan.setText("Your loan amount " + String.format("$%,.2f", loan));
         numPay.setText("Your number of payments " + months);
@@ -79,9 +79,11 @@ public class LoanTableActivity extends LoanCalculatorActivity {
             totalInterest += interest;
 
         }
-    /*    Intent home = new Intent(LoanTableActivity.this, LoanCalculatorActivity.class);
+        Intent home = new Intent(LoanTableActivity.this, LoanCalculatorActivity.class);
         c.putDouble("totalInterest", totalInterest);
         home.putExtras(c);
-        startActivity(home);*/
+        setResult(RESULT_OK,home);
     }
+
+
 }
