@@ -124,14 +124,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="170dp"
             android:text="Cacluate"
             android:id="@+id/calculate"
             android:clickable="true"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="170dp"
             android:text="reset"
             android:id="@+id/reset"
             android:textColor="@android:color/darker_gray"
@@ -139,7 +139,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="170dp"
             android:text="amortization table"
             android:textColor="@android:color/darker_gray"
             android:clickable="false"

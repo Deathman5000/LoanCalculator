@@ -22,6 +22,7 @@ public class LoanCalculatorActivity extends AppCompatActivity {
     TextView loanPayment, paymentText;
     Button Calculate,Reset,Table;
     Bundle b = new Bundle();
+    double interest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,18 +94,25 @@ public class LoanCalculatorActivity extends AppCompatActivity {
 
                 double LOAN = Double.parseDouble(loan.getText().toString().replace("$", "").replace(",", ""));
                 double apr = Double.parseDouble(APR.getText().toString().replace("%",""));
-                double TERM = Double.parseDouble(term.getText().toString());
-                double months = TERM * 12;
+                int TERM = Integer.parseInt(term.getText().toString());
+                int months = TERM * 12;
 
                 Intent tableScreen = new Intent(LoanCalculatorActivity.this, LoanTableActivity.class);
                 b.putDouble("loan", LOAN);
                 b.putDouble("apr", apr);
-                b.putDouble("months", months);
+                b.putInt("months", months);
 
                 tableScreen.putExtras(b);
                 startActivity(tableScreen);
             }
         });
-
     }
+
+ /*   @Override
+    protected void onResume() {
+        super.onResume();
+        Bundle c = this.getIntent().getExtras();
+        interest = c.getDouble("totalInterest");
+        loanPayment.setText("Over the period of the loan, interest paid is " + String.format("$%,.2f", interest));
+    }*/
 }
