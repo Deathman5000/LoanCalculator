@@ -7,6 +7,7 @@ package com.example.jh949711.loancalculator;
                  each month. It will also generate a table that tells the interest that is gained
                  over each year.
  */
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ public class LoanCalculatorActivity extends AppCompatActivity {
     EditText APR,loan,term,payment;
     TextView loanPayment, paymentText;
     Button Calculate,Reset,Table;
+    Bundle b = new Bundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,5 +87,24 @@ public class LoanCalculatorActivity extends AppCompatActivity {
                 payment.setTextColor(Color.GRAY);
             }
         });
+        Table.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                double LOAN = Double.parseDouble(loan.getText().toString().replace("$", "").replace(",", ""));
+                double apr = Double.parseDouble(APR.getText().toString().replace("%",""));
+                double TERM = Double.parseDouble(term.getText().toString());
+                double months = TERM * 12;
+
+                Intent tableScreen = new Intent(LoanCalculatorActivity.this, LoanTableActivity.class);
+                b.putDouble("loan", LOAN);
+                b.putDouble("apr", apr);
+                b.putDouble("months", months);
+
+                tableScreen.putExtras(b);
+                startActivity(tableScreen);
+            }
+        });
+
     }
 }
